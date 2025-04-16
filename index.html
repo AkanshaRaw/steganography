@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Steganography Web App</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Image Steganography</h1>
+        
+        <!-- Encode Form -->
+        <div class="form">
+            <h2>Encode Message</h2>
+            <form action="/encode" method="POST" enctype="multipart/form-data">
+                <input type="file" name="image" accept="image/png, image/bmp" required><br>
+                <textarea name="message" rows="4" placeholder="Enter message to hide" required></textarea><br>
+                <button type="submit">Encode and Download Image</button>
+            </form>
+        </div>
+        
+        <!-- Decode Form -->
+        <div class="form">
+            <h2>Decode Message</h2>
+            <form action="/decode" method="POST" enctype="multipart/form-data">
+                <input type="file" name="image" accept="image/png, image/bmp" required><br>
+                <button type="submit">Decode Hidden Message</button>
+            </form>
+        </div>
+        
+        <div id="message">
+            <!-- Hidden message will appear here after decoding -->
+        </div>
+    </div>
+</body>
+</html>
