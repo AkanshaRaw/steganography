@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Steganography Tool</title>
+    <link rel="stylesheet" href="static\style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="icon" type="image/png" href="static\script.js">
+    <link rel="icon" type="image/png" href="static\favicon.svg">
+</head>
+<body>
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h1>Steganography</h1>
+            <p>Hiding secret data within images or files to ensure confidentiality</p>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs">
+            <button class="tab-button active" data-tab="encode">Encode Message</button>
+            <button class="tab-button" data-tab="decode">Decode Message</button>
+            <div class="tab-indicator"></div>
+        </div>
+
+        <!-- Encode Tab -->
+        <div class="tab-content active" id="encode-tab">
+            <form id="encode-form" enctype="multipart/form-data">
+                <!-- File Upload -->
+                <div class="form-group">
+                    <label class="form-label">Select an Image</label>
+                    <div class="file-upload" id="encode-upload-area">
+                        <i class="fas fa-image"></i>
+                        <h3>Drop your image here</h3>
+                        <p>or click to browse (PNG, BMP, JPG recommended)</p>
+                        <input type="file" id="encode-image" name="image" accept="image/*" required>
+                    </div>
+                    <div class="file-name" id="encode-file-name"></div>
+                    <div class="preview-container" id="encode-preview-container">
+                        <img class="preview-image" id="encode-preview-image" alt="Preview">
+                    </div>
+                </div>
+
+                <!-- Message Input -->
+                <div class="form-group">
+                    <label class="form-label">Message to Hide</label>
+                    <textarea id="encode-message" name="message" placeholder="Enter the secret message you want to hide in the image..." required></textarea>
+                    <div class="char-counter" id="encode-char-counter">0 characters</div>
+                    <div class="capacity-bar">
+                        <div class="capacity-progress" id="capacity-progress"></div>
+                    </div>
+                </div>
+
+                <!-- Password Option -->
+                <div class="form-group password-toggle">
+                    <input type="checkbox" id="encode-use-password">
+                    <label for="encode-use-password">Encrypt with password (optional)</label>
+                    
+                    <div class="password-input" id="encode-password-input">
+                        <input type="password" id="encode-password" name="password" placeholder="Enter password" class="form-control">
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn" id="encode-button">
+                    <i class="fas fa-lock"></i> Encode & Download Image
+                </button>
+            </form>
+
+            <!-- Loading Indicator -->
+            <div class="loading" id="encode-loading">
+                <div class="spinner"></div>
+                <p>Processing your image...</p>
+            </div>
+
+            <!-- Result Container -->
+            <div class="result-container" id="encode-result">
+                <div class="result-message"></div>
+                <div class="result-actions">
+                    <button class="btn" id="encode-download">Download Image</button>
+                    <button class="btn btn-secondary" id="encode-reset">Encode Another Image</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decode Tab -->
+        <div class="tab-content" id="decode-tab">
+            <form id="decode-form" enctype="multipart/form-data">
+                <!-- File Upload -->
+                <div class="form-group">
+                    <label class="form-label">Select an Image with Hidden Message</label>
+                    <div class="file-upload" id="decode-upload-area">
+                        <i class="fas fa-search"></i>
+                        <h3>Drop your encoded image here</h3>
+                        <p>or click to browse (use the image with hidden message)</p>
+                        <input type="file" id="decode-image" name="image" accept="image/*" required>
+                    </div>
+                    <div class="file-name" id="decode-file-name"></div>
+                    <div class="preview-container" id="decode-preview-container">
+                        <img class="preview-image" id="decode-preview-image" alt="Preview">
+                    </div>
+                </div>
+
+                <!-- Password Option -->
+                <div class="form-group password-toggle">
+                    <input type="checkbox" id="decode-use-password">
+                    <label for="decode-use-password">Image is password protected</label>
+                    
+                    <div class="password-input" id="decode-password-input">
+                        <input type="password" id="decode-password" name="password" placeholder="Enter password" class="form-control">
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn" id="decode-button">
+                    <i class="fas fa-unlock"></i> Reveal Hidden Message
+                </button>
+            </form>
+
+            <!-- Loading Indicator -->
+            <div class="loading" id="decode-loading">
+                <div class="spinner"></div>
+                <p>Extracting hidden message...</p>
+            </div>
+
+            <!-- Result Container -->
+            <div class="result-container" id="decode-result">
+                <div class="result-message">Hidden message found:</div>
+                <div class="result-content" id="decode-result-content"></div>
+                <div class="result-actions">
+                    <button class="btn" id="copy-message">Copy Message</button>
+                    <button class="btn btn-secondary" id="decode-reset">Decode Another Image</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="footer">
+            <p>steganography &copy; 2025 | Mini Project</p>
+        </div>
+    </div>
+
+    <script src="static\script.js"></script>
+</body>
+</html>
