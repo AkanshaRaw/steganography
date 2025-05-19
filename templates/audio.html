@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Steganography Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.svg') }}">
+</head>
+<body>
+    <!-- Theme Toggle Button -->
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="container">
+        <div class="hamburger-menu" id="hamburgerMenu">
+            <i class="fas fa-bars"></i>
+            <div class="dropdown-menu" id="dropdownMenu">
+                <a href="{{ url_for('index') }}"><i class="fas fa-image"></i> Image Steganography</a>
+                <a href="{{ url_for('audio') }}"><i class="fas fa-music"></i> Audio Steganography</a>
+            </div>
+        </div>
+        <!-- Header Section -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-music"></i>
+            </div>
+            <h1>Audio Steganography</h1>
+            <p>Hide and extract secret messages in WAV audio files</p>
+        </div>
+
+        <!-- Tabs Navigation -->
+        <div class="tabs">
+            <button class="tab-button active" data-tab="audio-encode">Encode Message</button>
+            <button class="tab-button" data-tab="audio-decode">Decode Message</button>
+            <div class="tab-indicator"></div>
+        </div>
+
+        <!-- Encode Tab -->
+        <div class="tab-content active" id="audio-encode-tab">
+            <form id="audio-encode-form" enctype="multipart/form-data">
+                <!-- File Upload -->
+                <div class="form-group">
+                    <label class="form-label">Select a WAV Audio File</label>
+                    <div class="file-upload" id="audio-encode-upload-area">
+                        <i class="fas fa-music"></i>
+                        <h3>Drop your audio here</h3>
+                        <p>or click to browse (WAV only)</p>
+                        <input type="file" id="audio-encode-file" name="audio" accept=".wav" required>
+                    </div>
+                    <div class="file-name" id="audio-encode-file-name"></div>
+                </div>
+
+                <!-- Message Input -->
+                <div class="form-group">
+                    <label class="form-label">Message to Hide</label>
+                    <textarea id="audio-encode-message" name="message" placeholder="Enter the secret message you want to hide in the audio..." required></textarea>
+                    <div class="char-counter" id="audio-encode-char-counter">0 characters</div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn" id="audio-encode-button">
+                    <i class="fas fa-lock"></i> Encode & Download Audio
+                </button>
+            </form>
+
+            <!-- Loading Indicator -->
+            <div class="loading" id="audio-encode-loading">
+                <div class="spinner"></div>
+                <p>Processing your audio...</p>
+            </div>
+
+            <!-- Result Container -->
+            <div class="result-container" id="audio-encode-result">
+                <div class="result-message"></div>
+                <div class="result-actions">
+                    <button class="btn" id="audio-encode-download">Download Audio</button>
+                    <button class="btn btn-secondary" id="audio-encode-reset">Encode Another Audio</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Decode Tab -->
+        <div class="tab-content" id="audio-decode-tab">
+            <form id="audio-decode-form" enctype="multipart/form-data">
+                <!-- File Upload -->
+                <div class="form-group">
+                    <label class="form-label">Select a WAV Audio File with Hidden Message</label>
+                    <div class="file-upload" id="audio-decode-upload-area">
+                        <i class="fas fa-search"></i>
+                        <h3>Drop your encoded audio here</h3>
+                        <p>or click to browse (use the audio with hidden message)</p>
+                        <input type="file" id="audio-decode-file" name="audio" accept=".wav" required>
+                    </div>
+                    <div class="file-name" id="audio-decode-file-name"></div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn" id="audio-decode-button">
+                    <i class="fas fa-unlock"></i> Reveal Hidden Message
+                </button>
+            </form>
+
+            <!-- Loading Indicator -->
+            <div class="loading" id="audio-decode-loading">
+                <div class="spinner"></div>
+                <p>Extracting hidden message...</p>
+            </div>
+
+            <!-- Result Container -->
+            <div class="result-container" id="audio-decode-result">
+                <div class="result-message">Hidden message found:</div>
+                <div class="result-content" id="audio-decode-result-content"></div>
+                <div class="result-actions">
+                    <button class="btn" id="audio-copy-message">Copy Message</button>
+                    <button class="btn btn-secondary" id="audio-decode-reset">Decode Another Audio</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Section -->
+        <div class="footer">
+            <p>steganography &copy; 2025 | Mini Project</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='audio.js') }}"></script>
+    <script>
+        document.getElementById('hamburgerMenu').onclick = function (e) {
+            e.stopPropagation();
+            var menu = document.getElementById('dropdownMenu');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        };
+        document.body.onclick = function () {
+            var menu = document.getElementById('dropdownMenu');
+            if (menu) menu.style.display = 'none';
+        };
+    </script>
+</body>
+</html>
